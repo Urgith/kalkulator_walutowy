@@ -1,17 +1,20 @@
-import urllib.request as url  # importujemy moduł związaną z pobieraniem danych ze stron internetowych
-from bs4 import BeautifulSoup # importujemy moduł związaną z konsersją typów html i podobne
-from tkinter import *         # importujemy moduł związany z interfejsem graficznym
-from tkinter.ttk import *     # z powyższego modułu importujemy moduł z Combobox'em
-from functools import partial # importujemy moduł rozwiązujący problem z BUTTOT(...command)
-import sys                    # importujemy moduł umożliwiający nam wyjście z programu bez błędu
+from bs4 import BeautifulSoup
+import urllib.request as url
+
+from functools import partial  # rozwiązanie problemu z BUTTON(...command)
+
+from tkinter import *
+from tkinter.ttk import *
+
+import sys
 
 
-class Interfejs():                                       # tworzymy klasę interfejsu (oraz pobierania danych ze strony)
+class Interfejs():
 
-  def __init__(self):                                    # konstruktor klasy ( wywoła się w momencie zainicjalizowania klasy
-      self.link = 'https://www.nbp.pl/Kursy/KursyA.html' # zmienna przechowująca link do strony z tabelą kursu walut
-      self.nazwa = 'nowy.txt'                            # nazwa pliku, który tworzymy, aby zapisać tabelkę
-      self.root = Tk()                                   # inicjalizujemy interfejs
+  def __init__(self):
+      self.link = 'https://www.nbp.pl/Kursy/KursyA.html'
+      self.nazwa = 'nowy.txt'
+      self.root = Tk()
 
       Interfejs.zapis(self, self.link, self.nazwa)
       Interfejs.odczyt(self, self.nazwa)
