@@ -16,8 +16,8 @@ class Interfejs:
         self.nazwa = 'nowy.txt'
         self.root = Tk()
 
-        self.zapis(self.link, self.nazwa)
-        self.odczyt(self.nazwa)
+        self.zapis()
+        self.odczyt()
         self.polozenie()
         self.name()
         self.zakoncz()
@@ -30,11 +30,11 @@ class Interfejs:
         self.root.entry = Entry(self.root, width=15)
         self.root.entry.place(x=20, y=60, width=150, height=25)
 
-        self.root.listbox = Combobox(self.root, values=self.odczyt(self.nazwa)[1], width=10)
+        self.root.listbox = Combobox(self.root, values=self.odczyt()[1], width=10)
         self.root.listbox.place(x=200, y=60, width=100, height=25)
         self.root.listbox.current(0)
 
-        self.root.listbox1 = Combobox(self.root, values=self.odczyt(self.nazwa)[1], width=10)
+        self.root.listbox1 = Combobox(self.root, values=self.odczyt()[1], width=10)
         self.root.listbox1.place(x=340, y=60, width=100, height=25)
         self.root.listbox1.current(0)
 
@@ -89,25 +89,27 @@ class Interfejs:
         ''' przycisk włączający konwersję waluty '''
         self.root.button1 = Button(self.root, text='Oblicz', command=partial(self.ilosc_pieniedzy)).place(x=360, y=200, width=70, height=25)
 
-    def zapis(self, link, nazwa):
+    def zapis(self):
         ''' zapisujemy tabelę do pliku '''
         try:
-            otwarta_strona = url.urlopen(link)
+            otwarta_strona = url.urlopen(self.link)
             html = otwarta_strona.read()
             soup = BeautifulSoup(html, 'html.parser')
             cala_strona = soup.get_text()
             start = cala_strona.index('Kurs średni')
             koniec = cala_strona.index('Powyższa')
-            tabela = cala_strona[start + len('Kurs średni') + 3:koniec - 6]
-            nowy = open(nazwa, 'w').write(tabela)
+            tabela = cala_strona[start + len('Kurs średni') + 3:(koniec - 6)]
+
+            with open(self.nazwa, 'w') as file:
+                file.write(tabela)
 
         except:
             print('Nie ma dostępu do internetu albo brak dostępu do strony')
 
-    def odczyt(self, nazwa):
+    def odczyt(self):
         ''' odczytujemy tabelę z pliku do zmiennych '''
         try:
-            sczytywanie = open(nazwa, 'r')
+            sczytywanie = open(self.nazwa, 'r')
         except:
             print('Nie znaleziono odpowiedniego pliku')
             sys.exit(0)
@@ -135,7 +137,7 @@ class Interfejs:
 
         sczytywanie.close()
         for i in range(len(cena)):
-            kurs.append(cena[i]/ilosc[i])
+            kurs.append(cena[i] / ilosc[i])
 
         nazwa2.append('złotówka(Polska)')
         symbol.append('PLN')
@@ -152,7 +154,7 @@ class Interfejs:
         try:
             # CZARY MARY HOKUS POKUS
             self.kwota_koncowa().delete(0, END)
-            a = self.odczyt(self.nazwa)[0]
+            a = self.odczyt()[0]
             b = self.waluta_startowa().get()
             c = self.waluta_koncowa().get()
             d = eval(self.kwota_poczatkowa())
@@ -160,7 +162,7 @@ class Interfejs:
 
             f = a[b]
             g = a[c]
-            calosc = str(d*f/g) + ' ' + c
+            calosc = str((d*f) / g) + ' ' + c
             e.insert(0, str(calosc))
 
         except:
