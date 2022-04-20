@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import urllib.request as url
-
-from functools import partial  # rozwiązanie problemu z BUTTON(...command)
+# rozwiązanie problemu z BUTTON(...command)
+from functools import partial
 
 from tkinter import *
 from tkinter.ttk import *
@@ -30,11 +30,19 @@ class Interfejs:
         self.root.entry = Entry(self.root, width=15)
         self.root.entry.place(x=20, y=60, width=150, height=25)
 
-        self.root.listbox = Combobox(self.root, values=self.odczyt()[1], width=10)
+        self.root.listbox = Combobox(
+            self.root,
+            values=self.odczyt()[1],
+            width=10
+        )
         self.root.listbox.place(x=200, y=60, width=100, height=25)
         self.root.listbox.current(0)
 
-        self.root.listbox1 = Combobox(self.root, values=self.odczyt()[1], width=10)
+        self.root.listbox1 = Combobox(
+            self.root,
+            values=self.odczyt()[1], 
+            width=10
+        )
         self.root.listbox1.place(x=340, y=60, width=100, height=25)
         self.root.listbox1.current(0)
 
@@ -44,50 +52,57 @@ class Interfejs:
         self.root.mainloop()
 
     def polozenie(self):
-        ''' napis jako nazwa interfejsu, jego rozmiar, kolor interfejsu '''
+        ''' napis jako nazwa interfejsu, jego rozmiar, kolor '''
         self.root.title('Kalkulator walutowy')
         self.root.geometry('500x300+150+150')
         self.root.configure(background='blue')
 
     def name(self):
         ''' napis na agórze ekranu 'Kalkulator walutowy' '''
-        self.root.label = Label(self.root, text='Kalkulator walutowy').pack(side=TOP)
+        self.root.label = Label(self.root, text='Kalkulator walutowy')\
+                                                            .pack(side=TOP)
 
     def zakoncz(self):
         ''' przecisk wyłączający interfejs '''
-        self.root.button = Button(self.root, text='Zakończ program', command=quit).pack(side=BOTTOM)
+        self.root.button = Button(self.root, text='Zakończ program',
+                                    command=quit).pack(side=BOTTOM)
 
     def napis_poczatek(self):
         ''' napis nad polem do wpisywania kwoty początkowej '''
-        self.root.label2 = Label(self.root, text='Kwota początkowa:').place(x=30, y=30, width=130, height=20)
+        self.root.label2 = Label(self.root, text='Kwota początkowa:')\
+                                    .place(x=30, y=30, width=130, height=20)
 
     def kwota_poczatkowa(self):
         return self.root.entry.get()
 
     def napis_waluta_startowa(self):
         ''' napis nad polem wyboru waluty startowej '''
-        self.root.label3 = Label(self.root, text='Waluta startowa:').place(x=190, y=30, width=115, height=20)
+        self.root.label3 = Label(self.root, text='Waluta startowa:')\
+                                    .place(x=190, y=30, width=115, height=20)
 
     def waluta_startowa(self):
         return self.root.listbox
 
     def napis_waluta_koncowa(self):
         ''' napis nad polem wyboru waluty końcowej '''
-        self.label4 = Label(self.root, text='Waluta końcowa:').place(x=330, y=30, width=120, height=20)
+        self.label4 = Label(self.root, text='Waluta końcowa:')\
+                                    .place(x=330, y=30, width=120, height=20)
 
     def waluta_koncowa(self):
         return self.root.listbox1
 
     def napis_koniec(self):
         ''' napis nad polem wyniku konwersji waluty '''
-        self.label5 = Label(self.root, text='Tyle otrzymasz:').place(x=190, y=170, width=120, height=20)
+        self.label5 = Label(self.root, text='Tyle otrzymasz:')\
+                                    .place(x=190, y=170, width=120, height=20)
 
     def kwota_koncowa(self):
         return self.root.entry1
 
     def oblicz(self):
         ''' przycisk włączający konwersję waluty '''
-        self.root.button1 = Button(self.root, text='Oblicz', command=partial(self.ilosc_pieniedzy)).place(x=360, y=200, width=70, height=25)
+        self.root.button1 = Button(self.root, text='Oblicz', command=partial(
+            self.ilosc_pieniedzy)).place(x=360, y=200, width=70, height=25)
 
     def zapis(self):
         ''' zapisujemy tabelę do pliku '''
@@ -150,7 +165,7 @@ class Interfejs:
         return Dict, symbol
 
     def ilosc_pieniedzy(self):
-        ''' funkcja, która wyświetla wynik konwersji walut w odpowiednim okienku'''
+        ''' wyświetla wynik konwersji walut w odpowiednim okienku'''
         try:
             # CZARY MARY HOKUS POKUS
             self.kwota_koncowa().delete(0, END)
